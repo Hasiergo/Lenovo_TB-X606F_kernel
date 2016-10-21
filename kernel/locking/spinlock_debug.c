@@ -95,15 +95,9 @@ static void spin_dump(raw_spinlock_t *lock, const char *msg)
 {
 	struct task_struct *owner = READ_ONCE(lock->owner);
 
-<<<<<<< HEAD
-	if (lock->owner && lock->owner != SPINLOCK_OWNER_INIT)
-		owner = lock->owner;
-	pr_info("BUG: spinlock %s on CPU#%d, %s/%d\n",
-=======
 	if (owner == SPINLOCK_OWNER_INIT)
 		owner = NULL;
 	printk(KERN_EMERG "BUG: spinlock %s on CPU#%d, %s/%d\n",
->>>>>>> c0911024ff92... locking/spinlock/debug: Fix various data races
 		msg, raw_smp_processor_id(),
 		current->comm, task_pid_nr(current));
 	pr_info(" lock: %pS, .magic: %08x, .owner: %s/%d, "
@@ -147,16 +141,9 @@ static void spin_bug(raw_spinlock_t *lock, const char *msg)
 static inline void
 debug_spin_lock_before(raw_spinlock_t *lock)
 {
-<<<<<<< HEAD
-	SPIN_BUG_ON(lock->name == NULL, lock, "uninitialized");
-	SPIN_BUG_ON(lock->magic != SPINLOCK_MAGIC, lock, "bad magic");
-	SPIN_BUG_ON(lock->owner == current, lock, "recursion");
-	SPIN_BUG_ON(lock->owner_cpu == raw_smp_processor_id(),
-=======
 	SPIN_BUG_ON(READ_ONCE(lock->magic) != SPINLOCK_MAGIC, lock, "bad magic");
 	SPIN_BUG_ON(READ_ONCE(lock->owner) == current, lock, "recursion");
 	SPIN_BUG_ON(READ_ONCE(lock->owner_cpu) == raw_smp_processor_id(),
->>>>>>> c0911024ff92... locking/spinlock/debug: Fix various data races
 							lock, "cpu recursion");
 }
 
