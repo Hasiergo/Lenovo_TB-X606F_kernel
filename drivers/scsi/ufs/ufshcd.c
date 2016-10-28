@@ -8162,8 +8162,6 @@ void ufshcd_remove(struct ufs_hba *hba)
 	ufshcd_disable_intr(hba, hba->intr_mask);
 	ufshcd_hba_stop(hba, true);
 
-	scsi_host_put(hba->host);
-
 	ufshcd_exit_clk_gating(hba);
 	ufshcd_exit_latency_hist(hba);
 	if (ufshcd_is_clkscaling_enabled(hba))
@@ -8558,11 +8556,7 @@ exit_gating:
 	ufshcd_exit_latency_hist(hba);
 out_disable:
 	hba->is_irq_enabled = false;
-	scsi_host_put(host);
-
-	/* MTK PATCH */
-	/* TODO: Unmark this in MP driver. */
-	/* ufshcd_hba_exit(hba); */
+	ufshcd_hba_exit(hba);
 out_error:
 	return err;
 }
