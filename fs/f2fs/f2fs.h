@@ -996,6 +996,7 @@ struct f2fs_io_info {
 	block_t old_blkaddr;	/* old block address before Cow */
 	struct page *page;	/* page to be written */
 	struct page *encrypted_page;	/* encrypted page */
+<<<<<<< HEAD
 	struct list_head list;		/* serialize IOs */
 	bool submitted;		/* indicate IO submission */
 	int need_lock;		/* indicate we need to lock cp_rwsem */
@@ -1003,6 +1004,9 @@ struct f2fs_io_info {
 	bool is_meta;		/* indicate borrow meta inode mapping or not */
 	enum iostat_type io_type;	/* io type */
 	struct writeback_control *io_wbc; /* writeback control */
+=======
+	bool is_meta;		/* indicate borrow meta inode mapping or not */
+>>>>>>> 89d78cf58f27... f2fs: check blkaddr more accuratly before issue a bio
 };
 
 #define is_read_io(rw) ((rw) == READ)
