@@ -104,7 +104,11 @@
 	(GET_SEGOFF_FROM_SEG0(sbi, blk_addr) & ((sbi)->blocks_per_seg - 1))
 
 #define GET_SEGNO(sbi, blk_addr)					\
+<<<<<<< HEAD
 	((((blk_addr) == NULL_ADDR) || ((blk_addr) == NEW_ADDR)) ?	\
+=======
+	((!is_valid_blkaddr(blk_addr)) ?			\
+>>>>>>> 6012d18d4bf6... f2fs: clean up with is_valid_blkaddr()
 	NULL_SEGNO : GET_L2R_SEGNO(FREE_I(sbi),			\
 		GET_SEGNO_FROM_SEG0(sbi, blk_addr)))
 #define BLKS_PER_SEC(sbi)					\

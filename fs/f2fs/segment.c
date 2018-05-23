@@ -1891,7 +1891,7 @@ bool is_checkpointed_data(struct f2fs_sb_info *sbi, block_t blkaddr)
 	struct seg_entry *se;
 	bool is_cp = false;
 
-	if (blkaddr == NEW_ADDR || blkaddr == NULL_ADDR)
+	if (!is_valid_blkaddr(blkaddr))
 		return true;
 
 	down_read(&sit_i->sentry_lock);
@@ -2954,10 +2954,14 @@ void f2fs_wait_on_block_writeback(struct inode *inode, block_t blkaddr)
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct page *cpage;
 
+<<<<<<< HEAD
 	if (!f2fs_post_read_required(inode))
 		return;
 
 	if (blkaddr == NEW_ADDR || blkaddr == NULL_ADDR)
+=======
+	if (!is_valid_blkaddr(blkaddr))
+>>>>>>> 6012d18d4bf6... f2fs: clean up with is_valid_blkaddr()
 		return;
 
 	cpage = find_lock_page(META_MAPPING(sbi), blkaddr);
