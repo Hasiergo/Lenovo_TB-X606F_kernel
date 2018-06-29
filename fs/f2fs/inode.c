@@ -209,7 +209,7 @@ static int do_read_inode(struct inode *inode)
 
 	get_inline_info(inode, ri);
 
-	if (!sanity_check_inode(inode)) {
+	if (!sanity_check_inode(inode, node_page)) {
 		f2fs_put_page(node_page, 1);
 		return -EINVAL;
 	}
