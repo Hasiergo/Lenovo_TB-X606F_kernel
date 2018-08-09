@@ -1179,8 +1179,7 @@ static void mntput_no_expire(struct mount *mnt)
 		mnt_add_count(mnt, -1);
 		rcu_read_unlock();
 		return;
-	}
-	lock_mount_hash();
+	}	
 	/*
 	 * make sure that if __legitimize_mnt() has not seen us grab
 	 * mount_lock, we'll see their refcount increment here.
