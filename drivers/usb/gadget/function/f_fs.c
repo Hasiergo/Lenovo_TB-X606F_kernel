@@ -1141,18 +1141,9 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
 			 * status. usb_ep_dequeue API should guarantee no race
 			 * condition with req->complete callback.
 			 */
-			spin_lock_irq(&epfile->ffs->eps_lock);
-			interrupted = true;
-			/*
-			 * While we were acquiring lock endpoint got
-			 * disabled (disconnect) or changed
-			 (composition switch) ?
-			 */
-			if (epfile->ep == ep) {
-				usb_ep_dequeue(ep->ep, req);
-				interrupted = ep->status < 0;
-			}
-			spin_unlock_irq(&epfile->ffs->eps_lock);
+			usb_ep_dequeue(ep->ep, req);
+			wait_for_completion(&done);
+			interrupted = ep->status < 0;
 		}
 
 		if (interrupted) {
